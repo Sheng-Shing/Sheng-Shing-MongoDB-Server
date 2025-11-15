@@ -80,13 +80,13 @@ async function init() {
       db_ballexercise.collection(process.env.COLLECTION_NAME_BALLEXERCISE);
 
     const collection_redlight =
-      db_squid.collection(process.env.COLLECTION_NAME_REDLIGHT);
+      db_ballsquid.collection(process.env.COLLECTION_NAME_REDLIGHT);
 
     const collection_dragonboat =
-      db_squid.collection(process.env.COLLECTION_NAME_DRAGONBOAT);
+      db_ballsquid.collection(process.env.COLLECTION_NAME_DRAGONBOAT);
 
     const collection_dragontug =
-      db_squid.collection(process.env.COLLECTION_NAME_DRAGONTUG);
+      db_ballsquid.collection(process.env.COLLECTION_NAME_DRAGONTUG);
 
     const collection_griptrainer =
       db_griptrainer.collection(process.env.COLLECTION_NAME_GRIPTRAINER);
