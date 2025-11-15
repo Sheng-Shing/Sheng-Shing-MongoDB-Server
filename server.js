@@ -253,7 +253,7 @@ async function init() {
     });
 
     // ✅ API (member device)
-    app.get(`/${process.env.COLLECTION_NAME_DEVICE`, async (req, res) => {
+    app.get(`/${process.env.COLLECTION_NAME_DEVICE}`, async (req, res) => {
       const data = await collection_device.find().toArray();
       res.json(data);
     });
