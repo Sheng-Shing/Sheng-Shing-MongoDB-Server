@@ -50,13 +50,13 @@ async function init() {
 
     const db_customer = client_customer.db(process.env.DB_NAME_CUSTOMER);
     const db_memory = client_memory.db(process.env.DB_NAME_MEMORY);
-    const db_member = client_customer.db(process.env.DB_NAME_MEMBER);
-    const db_ballexercise = client_memory.db(process.env.DB_NAME_BALLEXERCISE);
-    const db_ballsquid = client_customer.db(process.env.DB_NAME_BALLSQUID);
-    //const db_balltrip= client_customer.db(process.env.DB_NAME_BALLTRIP);
-    const db_balldrum = client_memory.db(process.env.DB_NAME_BALLDRUM);
-    const db_griptrainer = client_customer.db(process.env.DB_NAME_GRIPTRAINER);
-    const db_product= client_customer.db(process.env.DB_NAME_PRODUCT);
+    const db_member = client_member.db(process.env.DB_NAME_MEMBER);
+    const db_ballexercise = client_ballexercise.db(process.env.DB_NAME_BALLEXERCISE);
+    const db_ballsquid = client_ballsquid.db(process.env.DB_NAME_BALLSQUID);
+    //const db_balltrip= client_balltrip.db(process.env.DB_NAME_BALLTRIP);
+    const db_balldrum = client_balldrum.db(process.env.DB_NAME_BALLDRUM);
+    const db_griptrainer = client_griptrainer.db(process.env.DB_NAME_GRIPTRAINER);
+    const db_product= client_ocarina.db(process.env.DB_NAME_PRODUCT);
 
     const collection_customer =
       db_customer.collection(process.env.COLLECTION_NAME_CUSTOMER);
