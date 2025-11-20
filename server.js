@@ -163,6 +163,32 @@ async function init() {
       res.json(result);
     });
 
+    app.put(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
+        const updateData = req.body;
+        const result = await collection.updateOne(
+        {
+            Unit_Name: data.Unit_Name,
+            Member_No: data.Member_No,
+            Serial_No: data.Serial_No
+        },
+        { $set: data }
+    );
+
+    res.json(result);
+    });
+
+    app.delete(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
+        const { Unit_Name, Member_No, Serial_No } = req.body;
+
+        const result = await collection.deleteOne({
+            Unit_Name,
+            Member_No,
+            Serial_No
+        });
+
+        res.json(result);
+    });
+
     // ✅ API (ballexercise)
     app.get(`/${process.env.COLLECTION_NAME_BALLEXERCISE}`, async (req, res) => {
       const data = await collection_ballexercise.find().toArray();
