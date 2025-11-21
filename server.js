@@ -167,9 +167,9 @@ async function init() {
         const updateData = req.body;
         const result = await collection.updateOne(
         {
-            Unit_Name: data.Unit_Name,
-            Member_No: data.Member_No,
-            Serial_No: data.Serial_No
+            Unit_Name: updateData.Unit_Name,
+            Member_No: updateData.Member_No,
+            Serial_No: updateData.Serial_No
         },
         { $set: updateData }
     );
