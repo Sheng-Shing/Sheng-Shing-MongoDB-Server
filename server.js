@@ -164,17 +164,27 @@ async function init() {
     });
 
     app.put(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
-        const updateData = req.body;
-        const result = await collection.updateOne(
-        {
-            Unit_Name: updateData.Unit_Name,
-            Member_No: updateData.Member_No,
-            Serial_No: updateData.Serial_No
-        },
-        { $set: updateData }
-    );
+        try {
+            const updateData = req.body;
 
-    res.json(result);
+            if (!updateData.Unit_Name || !updateData.Member_No || !updateData.Serial_No) {
+                return res.status(400).json({ error: "Unit_Name, Member_No, Serial_No are required" });
+            }
+
+            const result = await collection.updateOne(
+                {
+                    Unit_Name: updateData.Unit_Name,
+                    Member_No: updateData.Member_No,
+                    Serial_No: updateData.Serial_No
+                },
+                { $set: updateData }
+            );
+
+            res.json(result);
+        } catch (err) {
+            console.error("Update failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     app.delete(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
