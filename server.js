@@ -171,7 +171,7 @@ async function init() {
             Member_No: data.Member_No,
             Serial_No: data.Serial_No
         },
-        { $set: data }
+        { $set: updateData }
     );
 
     res.json(result);
