@@ -279,7 +279,7 @@ async function init() {
     });
 
     // ✅ API (member device)
-    app.get(`/${process.env.COLLECTION_NAME_DEVICE}`, async (req, res) => {
+    /*app.get(`/${process.env.COLLECTION_NAME_DEVICE}`, async (req, res) => {
       const data = await collection_device.find().toArray();
       res.json(data);
     });
@@ -287,6 +287,84 @@ async function init() {
     app.post(`/${process.env.COLLECTION_NAME_DEVICE}`, async (req, res) => {
       const result = await collection_device.insertOne(req.body);
       res.json(result);
+    });*/
+
+    // ------------------------------
+    // 📌 1. Insert Device Info
+    // ------------------------------
+    app.post(`/${process.env.COLLECTION_NAME_DEVICE}`, async (req, res) => {
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_device.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
+    });
+
+    // ------------------------------
+    // 📌 2. Update Device Info (by Unit_Name)
+    // ------------------------------
+    app.put(`/${process.env.COLLECTION_NAME_DEVICE}`, async (req, res) => {
+        try {
+            const data = req.body;
+
+            if (!data.Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const result = await collection_device.updateOne(
+                { Unit_Name: data.Unit_Name },
+                { $set: data }
+            );
+
+            res.json(result);
+        } catch (err) {
+            console.error("Update failed:", err);
+            res.status(500).json({ error: err.message });
+        }
+    });
+
+    // ------------------------------
+    // 📌 3. Delete Device Info (by Unit_Name)
+    // ------------------------------
+    app.delete(`/${process.env.COLLECTION_NAME_DEVICE}`, async (req, res) => {
+        try {
+            const { Unit_Name } = req.body;
+
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const result = await collection_device.deleteOne({ Unit_Name });
+            res.json(result);
+        } catch (err) {
+            console.error("Delete failed:", err);
+            res.status(500).json({ error: err.message });
+        }
+    });
+
+    // ------------------------------
+    // 📌 4. Query by Unit_Name
+    // ------------------------------
+    app.get(`/${process.env.COLLECTION_NAME_DEVICE}`, async (req, res) => {
+        try {
+            const { Unit_Name } = req.query;
+
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const data = await collection_device
+                .find({ Unit_Name: Unit_Name })
+                .toArray();
+
+            res.json(data);
+        } catch (err) {
+            console.error("Query failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     // ✅ 正確使用 port（必要！）
