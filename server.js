@@ -234,9 +234,28 @@ async function init() {
     });
 
     // ✅ API (member member)
+    //app.get(`/${process.env.COLLECTION_NAME_MEMBER}`, async (req, res) => {
+    //  const data = await collection_member.find().toArray();
+    //  res.json(data);
+    //});
+
     app.get(`/${process.env.COLLECTION_NAME_MEMBER}`, async (req, res) => {
-      const data = await collection_member.find().toArray();
-      res.json(data);
+        try {
+            const { Unit_Name } = req.query;
+
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const data = await collection_member
+                .find({ Unit_Name: Unit_Name })
+                .toArray();
+
+            res.json(data);
+        } catch (err) {
+            console.error("Query failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     app.post(`/${process.env.COLLECTION_NAME_MEMBER}`, async (req, res) => {
