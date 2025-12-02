@@ -37,7 +37,7 @@ const client_balldrum = new MongoClient(process.env.MONGO_URI_BALLDRUM);
 const client_ballsquid = new MongoClient(process.env.MONGO_URI_BALLSQUID);
 
 const client_ocarina = new MongoClient(process.env.MONGO_URI_OCARINA);
-//const client_balltrip = new MongoClient(process.env.MONGO_URI_BALLTRIP);
+const client_balltrip = new MongoClient(process.env.MONGO_URI_BALLTRIP);
 
 async function init() {
   try {
@@ -53,7 +53,7 @@ async function init() {
     const db_member = client_member.db(process.env.DB_NAME_MEMBER);
     const db_ballexercise = client_ballexercise.db(process.env.DB_NAME_BALLEXERCISE);
     const db_ballsquid = client_ballsquid.db(process.env.DB_NAME_BALLSQUID);
-    //const db_balltrip= client_balltrip.db(process.env.DB_NAME_BALLTRIP);
+    const db_balltrip= client_balltrip.db(process.env.DB_NAME_BALLTRIP);
     const db_balldrum = client_balldrum.db(process.env.DB_NAME_BALLDRUM);
     const db_griptrainer = client_griptrainer.db(process.env.DB_NAME_GRIPTRAINER);
     const db_product= client_ocarina.db(process.env.DB_NAME_PRODUCT);
@@ -94,8 +94,8 @@ async function init() {
     const collection_balldrum =
       db_balldrum.collection(process.env.COLLECTION_NAME_BALLDRUM);
 
-    /*const collection_balltrip =
-      db_balltrip.collection(process.env.COLLECTION_NAME_BALLTRIP);*/
+    const collection_balltrip =
+      db_balltrip.collection(process.env.COLLECTION_NAME_BALLTRIP);
 
     // ✅ API (customer)
     app.get(`/${process.env.COLLECTION_NAME_CUSTOMER}`, async (req, res) => {
@@ -130,7 +130,7 @@ async function init() {
       res.json(result);
     });
 
-    /* ✅ API (balltrip)
+    // ✅ API (balltrip)
     app.get(`/${process.env.COLLECTION_NAME_BALLTRIP}`, async (req, res) => {
       const data = await collection_balltrip.find().toArray();
       res.json(data);
@@ -139,7 +139,7 @@ async function init() {
     app.post(`/${process.env.COLLECTION_NAME_BALLTRIP}`, async (req, res) => {
       const result = await collection_balltrip.insertOne(req.body);
       res.json(result);
-    });*/
+    });
 
     // ✅ API (product)
     app.get(`/${process.env.COLLECTION_NAME_PRODUCT}`, async (req, res) => {
