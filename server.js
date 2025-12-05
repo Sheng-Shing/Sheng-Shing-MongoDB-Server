@@ -272,7 +272,7 @@ async function init() {
                 return res.status(400).json({ error: "Unit_Name is required" });
             }
 
-            const result = await collection_device.updateOne(
+            const result = await collection_member.updateOne(
                 { Unit_Name: data.Unit_Name , Member_No: data.Member_No},
                 { $set: data }
             );
