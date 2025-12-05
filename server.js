@@ -180,7 +180,7 @@ async function init() {
     app.delete(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
         const { Unit_Name, Member_No, Serial_No } = req.body;
 
-        const result = await collection.deleteOne({
+        const result = await collection_griptrainer.deleteOne({
             Unit_Name,
             Member_No,
             Serial_No
@@ -239,19 +239,17 @@ async function init() {
     //  res.json(data);
     //});
 
+
     app.get(`/${process.env.COLLECTION_NAME_MEMBER}`, async (req, res) => {
         try {
-            const { Unit_Name } = req.query;
+            const { Unit_Name, Member_No } = req.query;
 
-            if (!Unit_Name) {
-                return res.status(400).json({ error: "Unit_Name is required" });
-            }
+            const result = await collection_member.deleteOne({
+                            Unit_Name,
+                            Member_No
+                        });
 
-            const data = await collection_member
-                .find({ Unit_Name: Unit_Name })
-                .toArray();
-
-            res.json(data);
+            res.json(result);
         } catch (err) {
             console.error("Query failed:", err);
             res.status(500).json({ error: err.message });
