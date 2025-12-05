@@ -177,6 +177,7 @@ async function init() {
     res.json(result);
     });
 
+
     app.delete(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
         const { Unit_Name, Member_No, Serial_No } = req.body;
 
@@ -239,17 +240,19 @@ async function init() {
     //  res.json(data);
     //});
 
-
     app.get(`/${process.env.COLLECTION_NAME_MEMBER}`, async (req, res) => {
         try {
-            const { Unit_Name, Member_No } = req.query;
+            const { Unit_Name } = req.query;
 
-            const result = await collection_member.deleteOne({
-                            Unit_Name,
-                            Member_No
-                        });
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
 
-            res.json(result);
+            const data = await collection_member
+                .find({ Unit_Name: Unit_Name })
+                .toArray();
+
+            res.json(data);
         } catch (err) {
             console.error("Query failed:", err);
             res.status(500).json({ error: err.message });
@@ -259,6 +262,44 @@ async function init() {
     app.post(`/${process.env.COLLECTION_NAME_MEMBER}`, async (req, res) => {
       const result = await collection_member.insertOne(req.body);
       res.json(result);
+    });
+
+    app.put(`/${process.env.COLLECTION_NAME_MEMBER}`, async (req, res) => {
+        try {
+            const data = req.body;
+
+            if (!data.Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const result = await collection_device.updateOne(
+                { Unit_Name: data.Unit_Name , Member_No: data.Member_No},
+                { $set: data }
+            );
+
+            res.json(result);
+
+        } catch (err) {
+            console.error("Update failed:", err);
+            res.status(500).json({ error: err.message });
+        }
+    });
+
+    app.delete(`/${process.env.COLLECTION_NAME_MEMBER}`, async (req, res) => {
+        try {
+            const { Unit_Name, Member_No } = req.body;
+
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const result = await collection_member.deleteOne({ Unit_Name, Member_No });
+            res.json(result);
+
+        } catch (err) {
+            console.error("Delete failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     /*app.put(`/${process.env.COLLECTION_NAME_CUSTOMER}/:id`, async (req, res) => {
