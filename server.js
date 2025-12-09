@@ -99,139 +99,458 @@ async function init() {
 
     // ✅ API (customer)
     app.get(`/${process.env.COLLECTION_NAME_CUSTOMER}`, async (req, res) => {
-      const data = await collection_customer.find().toArray();
-      res.json(data);
+      //const data = await collection_customer.find().toArray();
+      //res.json(data);
+      try {
+          const data = await collection_customer.find().toArray();
+          res.json(data);
+      } catch (err) {
+          console.error("Insert failed:", err);
+          res.status(500).json({ error: err.message });
+      }
     });
 
     app.post(`/${process.env.COLLECTION_NAME_CUSTOMER}`, async (req, res) => {
-      const result = await collection_customer.insertOne(req.body);
-      res.json(result);
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_customer.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
+
+    //app.post(`/${process.env.COLLECTION_NAME_CUSTOMER}`, async (req, res) => {
+    //  const result = await collection_customer.insertOne(req.body);
+    //  res.json(result);
+    //});
 
     // ✅ API (memory)
-    app.get(`/${process.env.COLLECTION_NAME_MEMORY}`, async (req, res) => {
-      const data = await collection_memory.find().toArray();
-      res.json(data);
-    });
+   // app.get(`/${process.env.COLLECTION_NAME_MEMORY}`, async (req, res) => {
+   //   const data = await collection_memory.find().toArray();
+   //   res.json(data);
+   // });
+
+   app.get(`/${process.env.COLLECTION_NAME_MEMORY}`, async (req, res) => {
+       try {
+           const { Unit_Name } = req.query;
+
+           if (!Unit_Name) {
+               return res.status(400).json({ error: "Unit_Name is required" });
+           }
+
+           const data = await collection_memory
+               .find({ Unit_Name: Unit_Name })
+               .toArray();
+
+           res.json(data);
+       } catch (err) {
+           console.error("Query failed:", err);
+           res.status(500).json({ error: err.message });
+       }
+   });
+
+    //app.post(`/${process.env.COLLECTION_NAME_MEMORY}`, async (req, res) => {
+    //  const result = await collection_memory.insertOne(req.body);
+    //   res.json(result);
+    //});
 
     app.post(`/${process.env.COLLECTION_NAME_MEMORY}`, async (req, res) => {
-      const result = await collection_memory.insertOne(req.body);
-      res.json(result);
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_memory.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     // ✅ API (balldrum)
+    //app.get(`/${process.env.COLLECTION_NAME_BALLDRUM}`, async (req, res) => {
+    //  const data = await collection_balldrum.find().toArray();
+    //  res.json(data);
+    //});
+
     app.get(`/${process.env.COLLECTION_NAME_BALLDRUM}`, async (req, res) => {
-      const data = await collection_balldrum.find().toArray();
-      res.json(data);
+        try {
+            const { Unit_Name} = req.query;
+
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const data = await collection_balldrum
+                .find({ Unit_Name: Unit_Name })
+                .toArray();
+
+            res.json(data);
+        } catch (err) {
+            console.error("Query failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
+    //app.post(`/${process.env.COLLECTION_NAME_BALLDRUM}`, async (req, res) => {
+    //  const result = await collection_balldrum.insertOne(req.body);
+    //  res.json(result);
+    //});
+
     app.post(`/${process.env.COLLECTION_NAME_BALLDRUM}`, async (req, res) => {
-      const result = await collection_balldrum.insertOne(req.body);
-      res.json(result);
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_balldrum.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     // ✅ API (balltrip)
-    app.get(`/${process.env.COLLECTION_NAME_BALLTRIP}`, async (req, res) => {
-      const data = await collection_balltrip.find().toArray();
-      res.json(data);
-    });
+    //app.get(`/${process.env.COLLECTION_NAME_BALLTRIP}`, async (req, res) => {
+    //  const data = await collection_balltrip.find().toArray();
+    //  res.json(data);
+    //});
+   app.get(`/${process.env.COLLECTION_NAME_BALLTRIP}`, async (req, res) => {
+       try {
+           const { Unit_Name } = req.query;
+
+           if (!Unit_Name) {
+               return res.status(400).json({ error: "Unit_Name is required" });
+           }
+
+           const data = await collection_balltrip
+               .find({ Unit_Name: Unit_Name })
+               .toArray();
+
+           res.json(data);
+       } catch (err) {
+           console.error("Query failed:", err);
+           res.status(500).json({ error: err.message });
+       }
+   });
+
+
+    //app.post(`/${process.env.COLLECTION_NAME_BALLTRIP}`, async (req, res) => {
+    //  const result = await collection_balltrip.insertOne(req.body);
+    //  res.json(result);
+    //});
 
     app.post(`/${process.env.COLLECTION_NAME_BALLTRIP}`, async (req, res) => {
-      const result = await collection_balltrip.insertOne(req.body);
-      res.json(result);
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_balltrip.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     // ✅ API (product)
-    app.get(`/${process.env.COLLECTION_NAME_PRODUCT}`, async (req, res) => {
-      const data = await collection_product.find().toArray();
-      res.json(data);
-    });
+    //app.get(`/${process.env.COLLECTION_NAME_PRODUCT}`, async (req, res) => {
+    //  const data = await collection_product.find().toArray();
+    //  res.json(data);
+    //});
+
+   app.get(`/${process.env.COLLECTION_NAME_PRODUCT}`, async (req, res) => {
+       try {
+           const { productID} = req.query;
+
+           if (!productID) {
+               return res.status(400).json({ error: "productID is required" });
+           }
+
+           const data = await collection_product
+               .find({ productID: productID })
+               .toArray();
+
+           res.json(data);
+       } catch (err) {
+           console.error("Query failed:", err);
+           res.status(500).json({ error: err.message });
+       }
+   });
+
+    //app.post(`/${process.env.COLLECTION_NAME_PRODUCT}`, async (req, res) => {
+    //  const result = await collection_product.insertOne(req.body);
+    //  res.json(result);
+    //});
 
     app.post(`/${process.env.COLLECTION_NAME_PRODUCT}`, async (req, res) => {
-      const result = await collection_product.insertOne(req.body);
-      res.json(result);
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_product.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
+
+
+    app.put(`/${process.env.COLLECTION_NAME_PRODUCT}`, async (req, res) => {
+        try {
+            const updateData = req.body;
+            const result = await collection_product.updateOne(
+            {
+                productID: updateData.productID
+            },
+            { $set: updateData }
+            );
+
+            res.json(result);
+           } catch (err) {
+               console.error("Query failed:", err);
+               res.status(500).json({ error: err.message });
+           }
+        });
 
     // ✅ API (griptrainer)
+    //app.get(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
+    //  const data = await collection_griptrainer.find().toArray();
+    //  res.json(data);
+    //});
+
     app.get(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
-      const data = await collection_griptrainer.find().toArray();
-      res.json(data);
+        try {
+            const { Unit_Name } = req.query;
+
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const data = await collection_griptrainer
+                .find({ Unit_Name: Unit_Name })
+                .toArray();
+
+            res.json(data);
+        } catch (err) {
+            console.error("Query failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
+    //app.post(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
+    //  const result = await collection_griptrainer.insertOne(req.body);
+    //  res.json(result);
+    //});
+
     app.post(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
-      const result = await collection_griptrainer.insertOne(req.body);
-      res.json(result);
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_griptrainer.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     app.put(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
-        const updateData = req.body;
-        const result = await collection_griptrainer.updateOne(
-        {
-            Unit_Name: updateData.Unit_Name,
-            Member_No: updateData.Member_No,
-            Serial_No: updateData.Serial_No
-        },
-        { $set: updateData }
-    );
+        try {
+            const data = req.body;
 
-    res.json(result);
+            if (!data.Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const result = await collection_griptrainer.updateOne(
+                { Unit_Name: data.Unit_Name , Member_No: data.Member_No, Serial_No: data.Serial_No},
+                { $set: data }
+            );
+
+            res.json(result);
+
+        } catch (err) {
+            console.error("Update failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
 
     app.delete(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
-        const { Unit_Name, Member_No, Serial_No } = req.body;
+        try {
+            const { Unit_Name, Member_No, Serial_No } = req.body;
 
-        const result = await collection_griptrainer.deleteOne({
-            Unit_Name,
-            Member_No,
-            Serial_No
-        });
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
 
-        res.json(result);
+            const result = await collection_griptrainer.deleteOne({ Unit_Name, Member_No, Serial_No });
+            res.json(result);
+
+        } catch (err) {
+            console.error("Delete failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
+
 
     // ✅ API (ballexercise)
+    //app.get(`/${process.env.COLLECTION_NAME_BALLEXERCISE}`, async (req, res) => {
+    //  const data = await collection_ballexercise.find().toArray();
+    //  res.json(data);
+    //});
+
     app.get(`/${process.env.COLLECTION_NAME_BALLEXERCISE}`, async (req, res) => {
-      const data = await collection_ballexercise.find().toArray();
-      res.json(data);
+        try {
+            const { Unit_Name } = req.query;
+
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const data = await collection_ballexercise
+                .find({ Unit_Name: Unit_Name })
+                .toArray();
+
+            res.json(data);
+        } catch (err) {
+            console.error("Query failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
+    //app.post(`/${process.env.COLLECTION_NAME_BALLEXERCISE}`, async (req, res) => {
+    //  const result = await collection_ballexercise.insertOne(req.body);
+    //  res.json(result);
+    //});
+
     app.post(`/${process.env.COLLECTION_NAME_BALLEXERCISE}`, async (req, res) => {
-      const result = await collection_ballexercise.insertOne(req.body);
-      res.json(result);
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_ballexercise.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     // ✅ API (ballsquid red_light)
+    //app.get(`/${process.env.COLLECTION_NAME_REDLIGHT}`, async (req, res) => {
+    //  const data = await collection_redlight.find().toArray();
+    //  res.json(data);
+    //});
+
     app.get(`/${process.env.COLLECTION_NAME_REDLIGHT}`, async (req, res) => {
-      const data = await collection_redlight.find().toArray();
-      res.json(data);
+        try {
+            const { Unit_Name} = req.query;
+
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const data = await collection_redlight
+                .find({ Unit_Name: Unit_Name })
+                .toArray();
+
+            res.json(data);
+        } catch (err) {
+            console.error("Query failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
+    //app.post(`/${process.env.COLLECTION_NAME_REDLIGHT}`, async (req, res) => {
+    //  const result = await collection_redlight.insertOne(req.body);
+    //  res.json(result);
+    //});
+
     app.post(`/${process.env.COLLECTION_NAME_REDLIGHT}`, async (req, res) => {
-      const result = await collection_redlight.insertOne(req.body);
-      res.json(result);
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_redlight.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     // ✅ API (ballsquid dragon_boat)
+    //app.get(`/${process.env.COLLECTION_NAME_DRAGONBOAT}`, async (req, res) => {
+    //  const data = await collection_dragonboat.find().toArray();
+    //  res.json(data);
+    //});
+
     app.get(`/${process.env.COLLECTION_NAME_DRAGONBOAT}`, async (req, res) => {
-      const data = await collection_dragonboat.find().toArray();
-      res.json(data);
+        try {
+            const { Unit_Name } = req.query;
+
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const data = await collection_dragonboat
+                .find({ Unit_Name: Unit_Name })
+                .toArray();
+
+            res.json(data);
+        } catch (err) {
+            console.error("Query failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
+    //app.post(`/${process.env.COLLECTION_NAME_DRAGONBOAT}`, async (req, res) => {
+    //  const result = await collection_dragonboat.insertOne(req.body);
+    //  res.json(result);
+    //});
+
     app.post(`/${process.env.COLLECTION_NAME_DRAGONBOAT}`, async (req, res) => {
-      const result = await collection_dragonboat.insertOne(req.body);
-      res.json(result);
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_dragonboat.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     // ✅ API (ballsquid dragon_tug)
+    //app.get(`/${process.env.COLLECTION_NAME_DRAGONTUG}`, async (req, res) => {
+    //  const data = await collection_dragontug.find().toArray();
+    //  res.json(data);
+    //});
+
     app.get(`/${process.env.COLLECTION_NAME_DRAGONTUG}`, async (req, res) => {
-      const data = await collection_dragontug.find().toArray();
-      res.json(data);
+        try {
+            const { Unit_Name } = req.query;
+
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const data = await collection_dragontug
+                .find({ Unit_Name: Unit_Name})
+                .toArray();
+
+            res.json(data);
+        } catch (err) {
+            console.error("Query failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
+    //app.post(`/${process.env.COLLECTION_NAME_DRAGONTUG}`, async (req, res) => {
+    //  const result = await collection_dragontug.insertOne(req.body);
+    //  res.json(result);
+    //});
+
     app.post(`/${process.env.COLLECTION_NAME_DRAGONTUG}`, async (req, res) => {
-      const result = await collection_dragontug.insertOne(req.body);
-      res.json(result);
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_dragontug.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     // ✅ API (member member)
@@ -259,9 +578,20 @@ async function init() {
         }
     });
 
+    //app.post(`/${process.env.COLLECTION_NAME_MEMBER}`, async (req, res) => {
+    //  const result = await collection_member.insertOne(req.body);
+    //  res.json(result);
+    //});
+
     app.post(`/${process.env.COLLECTION_NAME_MEMBER}`, async (req, res) => {
-      const result = await collection_member.insertOne(req.body);
-      res.json(result);
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_member.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     app.put(`/${process.env.COLLECTION_NAME_MEMBER}`, async (req, res) => {
@@ -326,10 +656,6 @@ async function init() {
     });*/
 
     // ✅ API (member group)
-    /*app.get(`/${process.env.COLLECTION_NAME_GROUP}`, async (req, res) => {
-      const data = await collection_group.find().toArray();
-      res.json(data);
-    });*/
 
     app.get(`/${process.env.COLLECTION_NAME_GROUP}`, async (req, res) => {
         try {
@@ -350,9 +676,63 @@ async function init() {
         }
     });
 
+    //app.post(`/${process.env.COLLECTION_NAME_GROUP}`, async (req, res) => {
+    //  const result = await collection_group.insertOne(req.body);
+    //  res.json(result);
+    //});
+
     app.post(`/${process.env.COLLECTION_NAME_GROUP}`, async (req, res) => {
-      const result = await collection_group.insertOne(req.body);
-      res.json(result);
+        try {
+            const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
+            const result = await collection_group.insertOne(data);
+            res.json(result);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
+    });
+
+    // ------------------------------
+    // 📌 2. Update Group Info (by Unit_Name and Group_No)
+    // ------------------------------
+    app.put(`/${process.env.COLLECTION_NAME_GROUP}`, async (req, res) => {
+        try {
+            const data = req.body;
+
+            if (!data.Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const result = await collection_group.updateOne(
+                { Unit_Name: data.Unit_Name, Group_No: data.Group_No},
+                { $set: data }
+            );
+
+            res.json(result);
+        } catch (err) {
+            console.error("Update failed:", err);
+            res.status(500).json({ error: err.message });
+        }
+    });
+
+    // ------------------------------
+    // 📌 3. Delete Info Info (by Unit_Name and Group_No)
+    // ------------------------------
+    app.delete(`/${process.env.COLLECTION_NAME_GROUP}`, async (req, res) => {
+        try {
+            const { Unit_Name, Group_No } = req.body;
+
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const result = await collection_group.deleteOne({ Unit_Name, Group_No });
+            res.json(result);
+
+        } catch (err) {
+            console.error("Delete failed:", err);
+            res.status(500).json({ error: err.message });
+        }
     });
 
     // ✅ API (member device)
@@ -366,9 +746,26 @@ async function init() {
       res.json(result);
     });*/
 
-    // ------------------------------
-    // 📌 1. Insert Device Info
-    // ------------------------------
+
+    app.get(`/${process.env.COLLECTION_NAME_DEVICE}`, async (req, res) => {
+        try {
+            const { Unit_Name } = req.query;
+
+            if (!Unit_Name) {
+                return res.status(400).json({ error: "Unit_Name is required" });
+            }
+
+            const data = await collection_device
+                .find({ Unit_Name: Unit_Name })
+                .toArray();
+
+            res.json(data);
+        } catch (err) {
+            console.error("Query failed:", err);
+            res.status(500).json({ error: err.message });
+        }
+    });
+
     app.post(`/${process.env.COLLECTION_NAME_DEVICE}`, async (req, res) => {
         try {
             const data = req.body; // { Unit_Name, Device_Number, Devices: [ ... ] }
@@ -425,24 +822,7 @@ async function init() {
     // ------------------------------
     // 📌 4. Query by Unit_Name
     // ------------------------------
-    app.get(`/${process.env.COLLECTION_NAME_DEVICE}`, async (req, res) => {
-        try {
-            const { Unit_Name } = req.query;
 
-            if (!Unit_Name) {
-                return res.status(400).json({ error: "Unit_Name is required" });
-            }
-
-            const data = await collection_device
-                .find({ Unit_Name: Unit_Name })
-                .toArray();
-
-            res.json(data);
-        } catch (err) {
-            console.error("Query failed:", err);
-            res.status(500).json({ error: err.message });
-        }
-    });
 
     // ✅ 正確使用 port（必要！）
     app.listen(port, () =>
