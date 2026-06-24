@@ -255,24 +255,15 @@ async function init() {
     //  res.json(data);
     //});
 
-   app.get(`/${process.env.COLLECTION_NAME_PRODUCT}`, async (req, res) => {
-       try {
-           const { productID} = req.query;
-
-           if (!productID) {
-               return res.status(400).json({ error: "productID is required" });
-           }
-
-           const data = await collection_product
-               .find({ productID: productID })
-               .toArray();
-
-           res.json(data);
-       } catch (err) {
-           console.error("Query failed:", err);
-           res.status(500).json({ error: err.message });
-       }
-   });
+    app.get(`/${process.env.COLLECTION_NAME_PRODUCT}`, async (req, res) => {
+        try {
+            const data = await collection_product.find().toArray();
+            res.json(data);
+        } catch (err) {
+            console.error("Insert failed:", err);
+            res.status(500).json({ error: err.message });
+        }
+    });
 
     //app.post(`/${process.env.COLLECTION_NAME_PRODUCT}`, async (req, res) => {
     //  const result = await collection_product.insertOne(req.body);
