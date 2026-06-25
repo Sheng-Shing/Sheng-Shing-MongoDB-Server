@@ -257,11 +257,33 @@ async function init() {
 
     app.get(`/${process.env.COLLECTION_NAME_PRODUCT}`, async (req, res) => {
         try {
-            const data = await collection_product.find().toArray();
+            const { productID } = req.query;
+
+            // 沒指定 productID → 全部
+            if (!productID) {
+                const data = await collection_product.find().toArray();
+
+                return res.json(data);
+            }
+
+            // 指定 productID → 單筆
+            const data = await collection_product.findOne({
+                productID
+            });
+
+            if (!data) {
+                return res.status(404).json({
+                    error: "Product not found"
+                });
+            }
+
             res.json(data);
         } catch (err) {
-            console.error("Insert failed:", err);
-            res.status(500).json({ error: err.message });
+            console.error(err);
+
+            res.status(500).json({
+                error: err.message
+            });
         }
     });
 
