@@ -321,6 +321,22 @@ async function init() {
            }
         });
 
+    app.delete(`/${process.env.COLLECTION_NAME_PRODUCT}`, async (req, res) => {
+        try {
+            const { productID } = req.body;
+
+            if (!productID) {
+                return res.status(400).json({ error: "productID is required" });
+            }
+
+            const result = await collection_product.deleteOne({ productID });
+            res.json(result);
+        } catch (err) {
+            console.error("Delete failed:", err);
+            res.status(500).json({ error: err.message });
+        }
+    });
+
     // ✅ API (griptrainer)
     //app.get(`/${process.env.COLLECTION_NAME_GRIPTRAINER}`, async (req, res) => {
     //  const data = await collection_griptrainer.find().toArray();
